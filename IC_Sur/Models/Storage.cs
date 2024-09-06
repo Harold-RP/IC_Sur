@@ -19,6 +19,6 @@ namespace IC_Sur.Models
         public string Location { get; set; }
 
         public ICollection<Product>? Products { get; set; }
-
+        public ICollection<StorageEntry>? StorageEntries { get; set; }
     }
 }

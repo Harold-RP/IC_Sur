@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace IC_Sur.Models
 {
@@ -33,5 +34,8 @@ namespace IC_Sur.Models
         [Display(Name = "Nombre del Contacto")]
         public string? ContactName { get; set; }
 
+        public ICollection<Product>? Products { get; set; }
+
+        public ICollection<StorageEntry>? StorageEntries { get; set; }
     }
 }

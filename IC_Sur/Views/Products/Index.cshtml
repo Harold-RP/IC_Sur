@@ -28,7 +28,10 @@
                 @Html.DisplayNameFor(model => model.MeasurementUnit)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProviderId)
+                @Html.DisplayNameFor(model => model.Storage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Provider)
             </th>
             <th></th>
         </tr>
@@ -52,7 +55,10 @@
                 @Html.DisplayFor(modelItem => item.MeasurementUnit)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProviderId)
+                @Html.DisplayFor(modelItem => item.Storage.Section)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Provider.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |

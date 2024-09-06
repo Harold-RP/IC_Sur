@@ -22,7 +22,8 @@ namespace IC_Sur.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            var iC_Sur_Dbcontext = _context.Products.Include(p => p.Provider).Include(p => p.Storage);
+            return View(await iC_Sur_Dbcontext.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -34,6 +35,8 @@ namespace IC_Sur.Controllers
             }
 
             var product = await _context.Products
+                .Include(p => p.Provider)
+                .Include(p => p.Storage)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
@@ -46,8 +49,8 @@ namespace IC_Sur.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["StorageId"] = new SelectList(_context.Storage, "StorageId", "Section");
             ViewData["ProviderId"] = new SelectList(_context.Providers, "ProviderId", "Name");
+            ViewData["StorageId"] = new SelectList(_context.Storage, "StorageId", "Section");
             return View();
         }
 
@@ -64,14 +67,14 @@ namespace IC_Sur.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProviderId"] = new SelectList(_context.Providers, "ProviderId", "Name", product.ProviderId);
+            ViewData["StorageId"] = new SelectList(_context.Storage, "StorageId", "Section", product.StorageId);
             return View(product);
         }
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewData["StorageId"] = new SelectList(_context.Storage, "StorageId", "Section");
-            ViewData["ProviderId"] = new SelectList(_context.Providers, "ProviderId", "Name");
             if (id == null)
             {
                 return NotFound();
@@ -82,6 +85,8 @@ namespace IC_Sur.Controllers
             {
                 return NotFound();
             }
+            ViewData["ProviderId"] = new SelectList(_context.Providers, "ProviderId", "Name", product.ProviderId);
+            ViewData["StorageId"] = new SelectList(_context.Storage, "StorageId", "Section", product.StorageId);
             return View(product);
         }
 
@@ -117,6 +122,8 @@ namespace IC_Sur.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProviderId"] = new SelectList(_context.Providers, "ProviderId", "Name", product.ProviderId);
+            ViewData["StorageId"] = new SelectList(_context.Storage, "StorageId", "Section", product.StorageId);
             return View(product);
         }
 
@@ -129,6 +136,8 @@ namespace IC_Sur.Controllers
             }
 
             var product = await _context.Products
+                .Include(p => p.Provider)
+                .Include(p => p.Storage)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
