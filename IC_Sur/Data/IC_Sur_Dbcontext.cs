@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IC_Sur.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace IC_Sur.Data
@@ -10,17 +11,15 @@ namespace IC_Sur.Data
 
         }
 
-        //public DbSet<User> Users { get; set; }
-        //public DbSet<Role> Roles { get; set; }
-        //public DbSet<Student> Students { get; set; }
-        //public DbSet<Assistance> Assitances { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Storage> Storage { get; set; }
+        public DbSet<Provider> Providers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<User>().ToTable("Users");
-            //modelBuilder.Entity<Role>().ToTable("Roles");
-            //modelBuilder.Entity<Student>().ToTable("Students");
-            //modelBuilder.Entity<Assistance>().ToTable("Assitance");
+            modelBuilder.Entity<Product>().ToTable("Products");
+            modelBuilder.Entity<Storage>().ToTable("Storage");
+            modelBuilder.Entity<Provider>().ToTable("Providers");
         }
     }
 }

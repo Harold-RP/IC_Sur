@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\IC_Sur.props" />
+</Project>
