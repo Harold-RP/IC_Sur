@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IC_Sur")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66b126e7daf00bfcdb802bcec9f8773d7cc8c6f6")]
 [assembly: System.Reflection.AssemblyProductAttribute("IC_Sur")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IC_Sur")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
