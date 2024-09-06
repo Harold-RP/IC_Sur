@@ -54,7 +54,7 @@ namespace IC_Sur.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StorageId")] Storage storage)
+        public async Task<IActionResult> Create([Bind("StorageId,Section,Location")] Storage storage)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace IC_Sur.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StorageId")] Storage storage)
+        public async Task<IActionResult> Edit(int id, [Bind("StorageId,Section,Location")] Storage storage)
         {
             if (id != storage.StorageId)
             {

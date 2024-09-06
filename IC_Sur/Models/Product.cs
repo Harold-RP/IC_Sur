@@ -26,8 +26,7 @@ namespace IC_Sur.Models
         [Display(Name = "Unidad de medida del Producto")]
         public string? MeasurementUnit { get; set; }
 
-        [Display(Name = "Ubicación en Almacenes del Producto")]
-        public string? StorageLocation { get; set; }
+        public int StorageId { get; set; }
 
         public int ProviderId { get; set; }
         //public ICollection<SaleProduct>? SaleProducts { get; set; }

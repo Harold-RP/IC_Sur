@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dell\\Desktop\\IcSur\\IC_Sur\\IC_Sur\\IC_Sur.csproj": {}
+    "C:\\Users\\Dell\\Downloads\\IC_Sur-master\\IC_Sur\\IC_Sur.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dell\\Desktop\\IcSur\\IC_Sur\\IC_Sur\\IC_Sur.csproj": {
+    "C:\\Users\\Dell\\Downloads\\IC_Sur-master\\IC_Sur\\IC_Sur.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dell\\Desktop\\IcSur\\IC_Sur\\IC_Sur\\IC_Sur.csproj",
+        "projectUniqueName": "C:\\Users\\Dell\\Downloads\\IC_Sur-master\\IC_Sur\\IC_Sur.csproj",
         "projectName": "IC_Sur",
-        "projectPath": "C:\\Users\\Dell\\Desktop\\IcSur\\IC_Sur\\IC_Sur\\IC_Sur.csproj",
+        "projectPath": "C:\\Users\\Dell\\Downloads\\IC_Sur-master\\IC_Sur\\IC_Sur.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dell\\Desktop\\IcSur\\IC_Sur\\IC_Sur\\obj\\",
+        "outputPath": "C:\\Users\\Dell\\Downloads\\IC_Sur-master\\IC_Sur\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
