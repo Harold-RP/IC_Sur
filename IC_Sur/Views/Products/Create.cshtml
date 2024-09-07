@@ -1,10 +1,7 @@
 ﻿@model IC_Sur.Models.Product
 
-@{
-    ViewData["Title"] = "Create";
-}
 
-<h1>Create</h1>
+<h1>Nuevo Producto</h1>
 
 <h4>Product</h4>
 <hr />
@@ -19,9 +16,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
+                <select asp-for="Category" class="form-control">
+                    <option value="Productos Enlatados">Productos Enlatados</option>
+                    <option value="Productos Congelados">Productos Congelados</option>
+                    <option value="Productos Empaquetados">Productos Empaquetados</option>
+                    <option value="Productos Venta Por Mayor">Productos Venta Por Mayor</option>
+                </select>
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />

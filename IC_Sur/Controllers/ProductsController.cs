@@ -19,6 +19,18 @@ namespace IC_Sur.Controllers
             _context = context;
         }
 
+        // GET: Products/SearchProducts
+        public IActionResult SearchProducts(string query)
+        {
+            var products = _context.Products
+                .Where(p => p.Name.Contains(query))
+                .Select(p => new { p.ProductId, p.Name })
+                .ToList();
+
+            return Json(products);
+        }
+
+
         // GET: Products
         public async Task<IActionResult> Index()
         {

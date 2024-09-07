@@ -23,34 +23,41 @@ namespace IC_Sur.Data
             modelBuilder.Entity<Provider>().ToTable("Providers");
             modelBuilder.Entity<StorageEntry>().ToTable("StorageEntries");
 
-            // Relación de muchos a uno entre Product y Storage
             modelBuilder.Entity<Product>()
-                .HasOne(p => p.Storage)   // Un producto tiene un solo almacén
-                .WithMany(s => s.Products) // Un almacén puede tener varios productos
-                .HasForeignKey(p => p.StorageId) // Llave foránea en Product que refiere a Storage
-                .OnDelete(DeleteBehavior.Cascade); // Comportamiento de eliminación en cascada
+                .HasOne(p => p.Storage)
+                .WithMany(s => s.Products)
+                .HasForeignKey(p => p.StorageId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Relación de muchos a uno entre Product y Provider
             modelBuilder.Entity<Product>()
-                .HasOne(p => p.Provider)  // Un producto tiene un proveedor
-                .WithMany(pr => pr.Products) // Un proveedor puede proveer varios productos
-                .HasForeignKey(p => p.ProviderId) // Llave foránea en Product que refiere a Provider
-                .OnDelete(DeleteBehavior.Restrict); // No se elimina en cascada cuando se elimina un proveedor
+                .HasOne(p => p.Provider)
+                .WithMany(pr => pr.Products)
+                .HasForeignKey(p => p.ProviderId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación de muchos a uno entre StorageEntry y Product
             modelBuilder.Entity<StorageEntry>()
-                .HasOne(se => se.Product)  // Un StorageEntry tiene un solo producto
-                .WithMany() // Un producto puede tener múltiples entradas de almacén
-                .HasForeignKey(se => se.ProductId)  // Llave foránea en StorageEntry que refiere a Product
-                .OnDelete(DeleteBehavior.Cascade);  // Eliminación en cascada
+                .HasOne(se => se.Product)
+                .WithMany()
+                .HasForeignKey(se => se.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Relación de muchos a uno entre StorageEntry y Provider
             modelBuilder.Entity<StorageEntry>()
-                .HasOne(se => se.Provider) // Un StorageEntry tiene un solo proveedor
-                .WithMany() // Un proveedor puede tener múltiples entradas de almacén
-                .HasForeignKey(se => se.ProviderId) // Llave foránea en StorageEntry que refiere a Provider
-                .OnDelete(DeleteBehavior.Cascade);  // Eliminación en cascada
+                .HasOne(se => se.Provider)
+                .WithMany()
+                .HasForeignKey(se => se.ProviderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<StorageEntry>()
+                .HasOne(se => se.Product)
+                .WithMany()
+                .HasForeignKey(se => se.ProductId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StorageEntry>()
+                .HasOne(se => se.Provider)
+                .WithMany()
+                .HasForeignKey(se => se.ProviderId)
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

@@ -19,6 +19,17 @@ namespace IC_Sur.Controllers
             _context = context;
         }
 
+        // GET: Products/SearchProviders
+        public IActionResult SearchProviders(string query)
+        {
+            var providers = _context.Providers
+                .Where(p => p.Name.Contains(query))
+                .Select(p => new { p.ProviderId, p.Name })
+                .ToList();
+
+            return Json(providers);
+        }
+
         // GET: Providers
         public async Task<IActionResult> Index()
         {

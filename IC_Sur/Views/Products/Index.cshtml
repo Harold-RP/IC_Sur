@@ -1,13 +1,10 @@
 ﻿@model IEnumerable<IC_Sur.Models.Product>
 
-@{
-    ViewData["Title"] = "Index";
-}
 
-<h1>Index</h1>
+<h1>Productos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear Producto</a>
 </p>
 <table class="table">
     <thead>
@@ -28,10 +25,10 @@
                 @Html.DisplayNameFor(model => model.MeasurementUnit)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Storage)
+                Seccion del almacen
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Provider)
+                Proveedor
             </th>
             <th></th>
         </tr>

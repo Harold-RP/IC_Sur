@@ -13,9 +13,6 @@ namespace IC_Sur.Models
         [Display(Name = "Nombre del Producto")]
         public string? Name { get; set; }
 
-        [Required(ErrorMessage = "El Campo {0} es obligatorio ")]
-        [StringLength(50, ErrorMessage = "{0} debe tener entre {2} y {1} caracteres", MinimumLength = 3)]
-        [RegularExpression("^[a-zA-Z ]+$", ErrorMessage = "Solo se permiten letras en el campo categoría del producto.")]
         [Display(Name = "Categoría del Producto")]
         public string? Category { get; set; }
 
