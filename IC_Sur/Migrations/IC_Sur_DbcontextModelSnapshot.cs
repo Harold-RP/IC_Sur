@@ -22,6 +22,101 @@ namespace IC_Sur.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("IC_Sur.Models.Assistance", b =>
+                {
+                    b.Property<int>("AssistanceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssistanceId"));
+
+                    b.Property<DateTime>("ArrivalDatetime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("AssistanceMark")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ExitDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("AssistanceId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Assistances", (string)null);
+                });
+
+            modelBuilder.Entity("IC_Sur.Models.Employee", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"));
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Employees", (string)null);
+                });
+
+            modelBuilder.Entity("IC_Sur.Models.EmployeePayment", b =>
+                {
+                    b.Property<int>("EmployeePaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeePaymentId"));
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("DateTimePayment")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Detail")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<double?>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeePaymentId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("EmployeePayments", (string)null);
+                });
+
             modelBuilder.Entity("IC_Sur.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -97,6 +192,27 @@ namespace IC_Sur.Migrations
                     b.ToTable("Providers", (string)null);
                 });
 
+            modelBuilder.Entity("IC_Sur.Models.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("float");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles", (string)null);
+                });
+
             modelBuilder.Entity("IC_Sur.Models.Storage", b =>
                 {
                     b.Property<int>("StorageId")
@@ -157,6 +273,39 @@ namespace IC_Sur.Migrations
                     b.HasIndex("StorageId");
 
                     b.ToTable("StorageEntries", (string)null);
+                });
+
+            modelBuilder.Entity("IC_Sur.Models.Assistance", b =>
+                {
+                    b.HasOne("IC_Sur.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("IC_Sur.Models.Employee", b =>
+                {
+                    b.HasOne("IC_Sur.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("IC_Sur.Models.EmployeePayment", b =>
+                {
+                    b.HasOne("IC_Sur.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("IC_Sur.Models.Product", b =>

@@ -14,6 +14,10 @@ namespace IC_Sur.Data
         public DbSet<Storage> Storage { get; set; }
         public DbSet<Provider> Providers { get; set; }
         public DbSet<StorageEntry> StorageEntries { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Assistance> Assistances { get; set; }
+        public DbSet<EmployeePayment> EmployeePayments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +26,10 @@ namespace IC_Sur.Data
             modelBuilder.Entity<Storage>().ToTable("Storage");
             modelBuilder.Entity<Provider>().ToTable("Providers");
             modelBuilder.Entity<StorageEntry>().ToTable("StorageEntries");
+            modelBuilder.Entity<Role>().ToTable("Roles");
+            modelBuilder.Entity<Employee>().ToTable("Employees");
+            modelBuilder.Entity<Assistance>().ToTable("Assistances");
+            modelBuilder.Entity<EmployeePayment>().ToTable("EmployeePayments");
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Storage)
