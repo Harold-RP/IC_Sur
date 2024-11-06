@@ -1,0 +1,54 @@
+﻿@model IEnumerable<IC_Sur.Models.Alert>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Alertas</h1>
+
+<p>
+    <a asp-action="Create">Crear Alerta</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AlertDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AlertDate)
+            </td>
+            <td>
+                @if(item.Status == 1)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.AlertId">[Marcar Como Leído]</a>
+                }
+                else
+                {
+                    <p>Leído</p>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

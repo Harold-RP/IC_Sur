@@ -10,23 +10,23 @@ using IC_Sur.Models;
 
 namespace IC_Sur.Controllers
 {
-    public class AssistancesController : Controller
+    public class AlertsController : Controller
     {
         private readonly IC_Sur_Dbcontext _context;
 
-        public AssistancesController(IC_Sur_Dbcontext context)
+        public AlertsController(IC_Sur_Dbcontext context)
         {
             _context = context;
         }
-        
-        // GET: Assistances
+
+        // GET: Alerts
         public async Task<IActionResult> Index()
         {
-            var iC_Sur_Dbcontext = _context.Assistances.Include(a => a.Employee).OrderByDescending(a => a.AssistanceId);
+            var iC_Sur_Dbcontext = _context.Alerts.Include(a => a.Product).OrderByDescending(a => a.AlertId);
             return View(await iC_Sur_Dbcontext.ToListAsync());
         }
 
-        // GET: Assistances/Details/5
+        // GET: Alerts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,48 +34,42 @@ namespace IC_Sur.Controllers
                 return NotFound();
             }
 
-            var assistance = await _context.Assistances
-                .Include(a => a.Employee)
-                .FirstOrDefaultAsync(m => m.AssistanceId == id);
-            if (assistance == null)
+            var alert = await _context.Alerts
+                .Include(a => a.Product)
+                .FirstOrDefaultAsync(m => m.AlertId == id);
+            if (alert == null)
             {
                 return NotFound();
             }
 
-            return View(assistance);
+            return View(alert);
         }
 
-        // GET: Assistances/Create
+        // GET: Alerts/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName");
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "Name");
             return View();
         }
 
-        // POST: Assistances/Create
+        // POST: Alerts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AssistanceId,EmployeeId,ArrivalDatetime,ExitDateTime,AssistanceMark")] Assistance assistance)
+        public async Task<IActionResult> Create([Bind("ProductId,AlertDate,Status")] Alert alert)
         {
             if (ModelState.IsValid)
             {
-                var assistanceMark = Request.Form["assistanceMark"];
-                if (Request.Form["assistanceMark"].ToString() == "")
-                {
-                    ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName", assistance.EmployeeId);
-                    return View(assistance);
-                }
-                _context.Add(assistance);
+                _context.Add(alert);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName", assistance.EmployeeId);
-            return View(assistance);
+            ViewData["ProductId"] = new SelectList(_context.Alerts, "ProductId", "MeasurementUnit", alert.ProductId);
+            return View(alert);
         }
 
-        // GET: Assistances/Edit/5
+        // GET: Alerts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,23 +77,23 @@ namespace IC_Sur.Controllers
                 return NotFound();
             }
 
-            var assistance = await _context.Assistances.FindAsync(id);
-            if (assistance == null)
+            var alert = await _context.Alerts.FindAsync(id);
+            if (alert == null)
             {
                 return NotFound();
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName", assistance.EmployeeId);
-            return View(assistance);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "Name");
+            return View(alert);
         }
 
-        // POST: Assistances/Edit/5
+        // POST: Alerts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AssistanceId,EmployeeId,ArrivalDatetime,ExitDateTime,AssistanceMark")] Assistance assistance)
+        public async Task<IActionResult> Edit(int id, [Bind("AlertId,ProductId,AlertDate,Status")] Alert alert)
         {
-            if (id != assistance.AssistanceId)
+            if (id != alert.AlertId)
             {
                 return NotFound();
             }
@@ -108,12 +102,12 @@ namespace IC_Sur.Controllers
             {
                 try
                 {
-                    _context.Update(assistance);
+                    _context.Update(alert);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssistanceExists(assistance.AssistanceId))
+                    if (!AlertExists(alert.AlertId))
                     {
                         return NotFound();
                     }
@@ -124,11 +118,11 @@ namespace IC_Sur.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName", assistance.EmployeeId);
-            return View(assistance);
+            ViewData["ProductId"] = new SelectList(_context.Alerts, "ProductId", "MeasurementUnit", alert.ProductId);
+            return View(alert);
         }
 
-        // GET: Assistances/Delete/5
+        // GET: Alerts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,35 +130,35 @@ namespace IC_Sur.Controllers
                 return NotFound();
             }
 
-            var assistance = await _context.Assistances
-                .Include(a => a.Employee)
-                .FirstOrDefaultAsync(m => m.AssistanceId == id);
-            if (assistance == null)
+            var alert = await _context.Alerts
+                .Include(a => a.Product)
+                .FirstOrDefaultAsync(m => m.AlertId == id);
+            if (alert == null)
             {
                 return NotFound();
             }
 
-            return View(assistance);
+            return View(alert);
         }
 
-        // POST: Assistances/Delete/5
+        // POST: Alerts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var assistance = await _context.Assistances.FindAsync(id);
-            if (assistance != null)
+            var alert = await _context.Alerts.FindAsync(id);
+            if (alert != null)
             {
-                _context.Assistances.Remove(assistance);
+                _context.Alerts.Remove(alert);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AssistanceExists(int id)
+        private bool AlertExists(int id)
         {
-            return _context.Assistances.Any(e => e.AssistanceId == id);
+            return _context.Alerts.Any(e => e.AlertId == id);
         }
     }
 }

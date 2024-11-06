@@ -1,14 +1,27 @@
-﻿namespace IC_Sur.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace IC_Sur.Models
 {
     public class ProviderOrder
     {
+        [Key]
         public int ProviderOrderId { get; set; }
-        public int ProviderId { get; set; }
-        public Provider? Provider { get; set; }
-        public int EmployeeId { get; set; }
-        public Employee? Employee { get; set; }
-        public DateTime DateTimeOrder { get; set; }
-        public int MyProperty { get; set; }
 
+        [ForeignKey("Product")]
+        [Display(Name = "Producto")]
+        public int ProductId { get; set; }
+        
+        [Display(Name = "Producto")]
+        public Product? Product { get; set; }
+
+        [Display(Name = "Cantidad")]
+        public int Amount { get; set; }
+        
+        [Display(Name = "Fecha/Hora Pedido")]
+        public DateTime DateTimeOrder { get; set; }
+
+        [Display(Name = "Costo Total")]
+        public double TotalCost { get; set; }
     }
 }

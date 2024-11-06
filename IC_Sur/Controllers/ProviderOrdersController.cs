@@ -10,23 +10,23 @@ using IC_Sur.Models;
 
 namespace IC_Sur.Controllers
 {
-    public class AssistancesController : Controller
+    public class ProviderOrdersController : Controller
     {
         private readonly IC_Sur_Dbcontext _context;
 
-        public AssistancesController(IC_Sur_Dbcontext context)
+        public ProviderOrdersController(IC_Sur_Dbcontext context)
         {
             _context = context;
         }
-        
-        // GET: Assistances
+
+        // GET: ProviderOrders
         public async Task<IActionResult> Index()
         {
-            var iC_Sur_Dbcontext = _context.Assistances.Include(a => a.Employee).OrderByDescending(a => a.AssistanceId);
+            var iC_Sur_Dbcontext = _context.ProviderOrders.Include(p => p.Product).OrderByDescending(a => a.ProviderOrderId);
             return View(await iC_Sur_Dbcontext.ToListAsync());
         }
 
-        // GET: Assistances/Details/5
+        // GET: ProviderOrders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,48 +34,44 @@ namespace IC_Sur.Controllers
                 return NotFound();
             }
 
-            var assistance = await _context.Assistances
-                .Include(a => a.Employee)
-                .FirstOrDefaultAsync(m => m.AssistanceId == id);
-            if (assistance == null)
+            var providerOrder = await _context.ProviderOrders
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync(m => m.ProviderOrderId == id);
+            if (providerOrder == null)
             {
                 return NotFound();
             }
 
-            return View(assistance);
+            return View(providerOrder);
         }
 
-        // GET: Assistances/Create
+        // GET: ProviderOrders/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName");
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "Name");
             return View();
         }
 
-        // POST: Assistances/Create
+        // POST: ProviderOrders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AssistanceId,EmployeeId,ArrivalDatetime,ExitDateTime,AssistanceMark")] Assistance assistance)
+        public async Task<IActionResult> Create([Bind("ProductId,Amount,DateTimeOrder")] ProviderOrder providerOrder)
         {
             if (ModelState.IsValid)
             {
-                var assistanceMark = Request.Form["assistanceMark"];
-                if (Request.Form["assistanceMark"].ToString() == "")
-                {
-                    ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName", assistance.EmployeeId);
-                    return View(assistance);
-                }
-                _context.Add(assistance);
+                var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == providerOrder.ProductId);
+                providerOrder.TotalCost = providerOrder.Amount * product.Price;
+                _context.Add(providerOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName", assistance.EmployeeId);
-            return View(assistance);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "Name");
+            return View(providerOrder);
         }
 
-        // GET: Assistances/Edit/5
+        // GET: ProviderOrders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,23 +79,23 @@ namespace IC_Sur.Controllers
                 return NotFound();
             }
 
-            var assistance = await _context.Assistances.FindAsync(id);
-            if (assistance == null)
+            var providerOrder = await _context.ProviderOrders.FindAsync(id);
+            if (providerOrder == null)
             {
                 return NotFound();
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName", assistance.EmployeeId);
-            return View(assistance);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "Name");
+            return View(providerOrder);
         }
 
-        // POST: Assistances/Edit/5
+        // POST: ProviderOrders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AssistanceId,EmployeeId,ArrivalDatetime,ExitDateTime,AssistanceMark")] Assistance assistance)
+        public async Task<IActionResult> Edit(int id, [Bind("ProviderOrderId,ProductId,Amount,DateTimeOrder,TotalCost")] ProviderOrder providerOrder)
         {
-            if (id != assistance.AssistanceId)
+            if (id != providerOrder.ProviderOrderId)
             {
                 return NotFound();
             }
@@ -108,12 +104,12 @@ namespace IC_Sur.Controllers
             {
                 try
                 {
-                    _context.Update(assistance);
+                    _context.Update(providerOrder);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssistanceExists(assistance.AssistanceId))
+                    if (!ProviderOrderExists(providerOrder.ProviderOrderId))
                     {
                         return NotFound();
                     }
@@ -124,11 +120,11 @@ namespace IC_Sur.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName", assistance.EmployeeId);
-            return View(assistance);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "Name");
+            return View(providerOrder);
         }
 
-        // GET: Assistances/Delete/5
+        // GET: ProviderOrders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,35 +132,35 @@ namespace IC_Sur.Controllers
                 return NotFound();
             }
 
-            var assistance = await _context.Assistances
-                .Include(a => a.Employee)
-                .FirstOrDefaultAsync(m => m.AssistanceId == id);
-            if (assistance == null)
+            var providerOrder = await _context.ProviderOrders
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync(m => m.ProviderOrderId == id);
+            if (providerOrder == null)
             {
                 return NotFound();
             }
 
-            return View(assistance);
+            return View(providerOrder);
         }
 
-        // POST: Assistances/Delete/5
+        // POST: ProviderOrders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var assistance = await _context.Assistances.FindAsync(id);
-            if (assistance != null)
+            var providerOrder = await _context.ProviderOrders.FindAsync(id);
+            if (providerOrder != null)
             {
-                _context.Assistances.Remove(assistance);
+                _context.ProviderOrders.Remove(providerOrder);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AssistanceExists(int id)
+        private bool ProviderOrderExists(int id)
         {
-            return _context.Assistances.Any(e => e.AssistanceId == id);
+            return _context.ProviderOrders.Any(e => e.ProviderOrderId == id);
         }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace IC_Sur.Migrations
 {
     /// <inheritdoc />
-    public partial class workintegration : Migration
+    public partial class Migration1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -155,6 +155,49 @@ namespace IC_Sur.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Alerts",
+                columns: table => new
+                {
+                    AlertId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    AlertDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alerts", x => x.AlertId);
+                    table.ForeignKey(
+                        name: "FK_Alerts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProviderOrders",
+                columns: table => new
+                {
+                    ProviderOrderId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    DateTimeOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalCost = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProviderOrders", x => x.ProviderOrderId);
+                    table.ForeignKey(
+                        name: "FK_ProviderOrders_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StorageEntries",
                 columns: table => new
                 {
@@ -193,6 +236,11 @@ namespace IC_Sur.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Alerts_ProductId",
+                table: "Alerts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Assistances_EmployeeId",
                 table: "Assistances",
                 column: "EmployeeId");
@@ -216,6 +264,11 @@ namespace IC_Sur.Migrations
                 name: "IX_Products_StorageId",
                 table: "Products",
                 column: "StorageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProviderOrders_ProductId",
+                table: "ProviderOrders",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StorageEntries_ProductId",
@@ -242,10 +295,16 @@ namespace IC_Sur.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Alerts");
+
+            migrationBuilder.DropTable(
                 name: "Assistances");
 
             migrationBuilder.DropTable(
                 name: "EmployeePayments");
+
+            migrationBuilder.DropTable(
+                name: "ProviderOrders");
 
             migrationBuilder.DropTable(
                 name: "StorageEntries");

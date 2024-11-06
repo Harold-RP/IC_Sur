@@ -32,6 +32,7 @@ namespace IC_Sur.Models
         [Display(Name = "Rol")]
         public int RoleId { get; set; }
 
+        [Display(Name = "Rol")]
         public Role? Role { get; set; }
     }
 }

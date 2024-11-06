@@ -10,9 +10,11 @@ namespace IC_Sur.Data
 
         }
 
+        public DbSet<Alert> Alerts { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Storage> Storage { get; set; }
         public DbSet<Provider> Providers { get; set; }
+        public DbSet<ProviderOrder> ProviderOrders { get; set; }
         public DbSet<StorageEntry> StorageEntries { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -22,9 +24,11 @@ namespace IC_Sur.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configuración de las tablas
+            modelBuilder.Entity<Alert>().ToTable("Alerts");
             modelBuilder.Entity<Product>().ToTable("Products");
             modelBuilder.Entity<Storage>().ToTable("Storage");
             modelBuilder.Entity<Provider>().ToTable("Providers");
+            modelBuilder.Entity<ProviderOrder>().ToTable("ProviderOrders");
             modelBuilder.Entity<StorageEntry>().ToTable("StorageEntries");
             modelBuilder.Entity<Role>().ToTable("Roles");
             modelBuilder.Entity<Employee>().ToTable("Employees");

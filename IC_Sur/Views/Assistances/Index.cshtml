@@ -44,8 +44,10 @@
                     @Html.DisplayFor(modelItem => item.AssistanceMark)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.AssistanceId">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.AssistanceId">Detalles</a> |
+                    @if (item.ExitDateTime == null)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.AssistanceId">Registrar Salida</a>
+                    }
                 </td>
             </tr>
         }

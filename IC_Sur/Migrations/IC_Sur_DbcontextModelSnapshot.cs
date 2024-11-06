@@ -17,10 +17,34 @@ namespace IC_Sur.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("IC_Sur.Models.Alert", b =>
+                {
+                    b.Property<int>("AlertId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AlertId"));
+
+                    b.Property<DateTime>("AlertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("AlertId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Alerts", (string)null);
+                });
 
             modelBuilder.Entity("IC_Sur.Models.Assistance", b =>
                 {
@@ -192,6 +216,33 @@ namespace IC_Sur.Migrations
                     b.ToTable("Providers", (string)null);
                 });
 
+            modelBuilder.Entity("IC_Sur.Models.ProviderOrder", b =>
+                {
+                    b.Property<int>("ProviderOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProviderOrderId"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateTimeOrder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("TotalCost")
+                        .HasColumnType("float");
+
+                    b.HasKey("ProviderOrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProviderOrders", (string)null);
+                });
+
             modelBuilder.Entity("IC_Sur.Models.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -275,6 +326,17 @@ namespace IC_Sur.Migrations
                     b.ToTable("StorageEntries", (string)null);
                 });
 
+            modelBuilder.Entity("IC_Sur.Models.Alert", b =>
+                {
+                    b.HasOne("IC_Sur.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("IC_Sur.Models.Assistance", b =>
                 {
                     b.HasOne("IC_Sur.Models.Employee", "Employee")
@@ -325,6 +387,17 @@ namespace IC_Sur.Migrations
                     b.Navigation("Provider");
 
                     b.Navigation("Storage");
+                });
+
+            modelBuilder.Entity("IC_Sur.Models.ProviderOrder", b =>
+                {
+                    b.HasOne("IC_Sur.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("IC_Sur.Models.StorageEntry", b =>
